@@ -21,6 +21,13 @@ class LinkList(object):
         return self.length
 
     def append(self, value):
+        """
+        思路: 1，append都得先判断链表长度
+             2. 因为append依赖于tail.所以我们在这儿要对tail进行判断，为none的时候添加
+             3. tail不为None的时候添加
+        :param value:
+        :return:
+        """
         if self.maxsize and self.length >= self.maxsize:
             raise Exception("full LinkList")
 
@@ -34,6 +41,11 @@ class LinkList(object):
         self.length += 1
 
     def apendleft(self, value):
+        """
+        思路参考于append，也要对tail是否存在进行判断
+        :param value:
+        :return:
+        """
         if self.maxsize and self.length >= self.maxsize:
             raise Exception("full LinkList")
 
@@ -48,6 +60,11 @@ class LinkList(object):
         self.length += 1
 
     def popleft(self):
+        """
+        思路: 如果headnode和tailnode一样的话,那说明只有一个节点
+        但是要更新self.tail
+        :return:
+        """
         if self.length <= 0:
             raise Exception("Empty LinkList")
 
@@ -66,6 +83,11 @@ class LinkList(object):
             yield node.value
 
     def iter_node(self):
+        """
+        思路: 从self.head节点开始遍历，当遍历到curnode.next is self.tail时，退出
+        然后返回最后节点
+        :return:
+        """
         curnode = self.root.next
         while curnode is not self.tail:
                 yield curnode
@@ -74,6 +96,10 @@ class LinkList(object):
             yield curnode
 
     def clear(self):
+        """
+        思路，遍历所有节点，删除，更新head,tail.length
+        :return:
+        """
         for node in self.iter_node():
             del node
 
@@ -82,6 +108,7 @@ class LinkList(object):
         self.tail = None
 
     def find(self, value):
+
         i = 0
         for node in self.iter_node():
             if node.value == value:
@@ -91,6 +118,12 @@ class LinkList(object):
         return -1
 
     def remove(self, value):
+        """
+        思路: 遍历所有节点，找到node.value=value时，删除节点
+        需要注意当前节点是否为tail节点，如果为tail节点时，需要更新tail节点为当前节点的前一个节点
+        :param value:
+        :return:
+        """
         prenode = self.root
         for node in self.iter_node():
             if node.value == value:
@@ -105,6 +138,12 @@ class LinkList(object):
         return -1
 
     def reverse(self):
+        """
+        思路: curnode=self.root.next， 把当前节点的next指向之前节点的prev
+        遍历的第一个节点的是headnode，所以这个节点的next=None,
+        需要用一个prenode来记录上一个节点
+        :return:
+        """
         curnode = self.root.next
         prenode = None
         self.tail = curnode
@@ -135,3 +174,10 @@ def test_linklist():
 
     l1.remove(4)
     assert list(l1) == [3]
+
+    l1.append(2)
+    l1.reverse()
+    print(list(l1))
+
+
+test_linklist()
