@@ -82,17 +82,8 @@ class Bintree(object):
             cur_nodes = next_nodes  # 继续遍历下一层
             next_nodes = []
 
-    def reverse(self, subtree):
-        """ 反转二叉树
-
-        :param subtree:
-        :return:
-        """
-        if subtree is not None:
-            subtree.left, subtree.right = subtree.right, subtree.left
-            self.reverse(subtree.left)
-            self.reverse(subtree.right)
-
 
 btree = Bintree.build_from(node_list)
+
 print(btree.preorder_trav(btree.root))
+print(btree.layer_trav(btree.root))
